@@ -1,0 +1,51 @@
+version: '3.9'
+name: ichablog-be
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: ichablog_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../data/redis_data:/data
+
+  mariadb:
+    image: mariadb:11.7
+    container_name: ichablog_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: ichablog
+      MYSQL_USER: ichablog
+      MYSQL_PASSWORD: ichablog
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - ../data/mariadb_data:/var/lib/mysql
+
+  minio:
+    image: minio/minio:RELEASE.2025-04-08T15-41-24Z
+    container_name: ichablog_minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ichablog
+      MINIO_ROOT_PASSWORD: ichablog
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: server /data --console-address ":9001"
+    volumes:
+      - ../data/minio_data:/data
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.14
+    container_name: ichablog_meilisearch
+    restart: unless-stopped
+    ports:
+      - "7700:7700"
+    environment:
+      MEILI_NO_ANALYTICS: "true"
+      MEILI_MASTER_KEY: "masterKey"
+    volumes:
+      - ../data/meili_data:/meili_data
