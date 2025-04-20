@@ -5,6 +5,8 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 ---
 
 ## 1. Initialize Bun project, directory structure, tooling, test runner, and config/env setup
+**completed**
+
 **Purpose:** Scaffold the foundation of the project with all necessary configuration.
 **Goals:**
 - Initialize a Bun workspace with TypeScript support.
@@ -23,7 +25,7 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 2. Install and configure Biome, Lefthook, and Commitlint.
 3. Create directory structure (`src/`, `docker/`, `tests/`).
 4. Configure Bun test runner (`bun test`) and create `tests/unit`, `tests/integration`, `tests/e2e`, `tests/helpers` directories.
-5. Add `config/index.ts` to load `.env` and export settings.
+5. Add `src/config/index.ts` to load `.env` and export settings.
 
 ---
 
