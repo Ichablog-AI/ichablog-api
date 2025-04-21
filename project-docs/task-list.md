@@ -46,7 +46,25 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 3. Add tests for `LoggerRegistry` behavior.
 
 ---
-## 3. Integrate Pino HTTP logging middleware
+
+## 3. Configure Tsyringe dependency injection container
+**Purpose:** Enable DI for services and controllers.
+**Goals:**
+- Install Tsyringe.
+- Register core classes (clients, services) in the container.
+
+**Files Created/Modified:**
+- `src/config/container.ts`
+- `package.json`
+
+**Subtasks:**
+1. Install `tsyringe`.
+2. Create `container.ts` and register bindings.
+3. inject LoggerRegistry
+
+---
+
+## 4. Integrate Pino HTTP logging middleware
 **Purpose:** Provide structured request/response logging for all API calls.
 **Goals:**
 - Install Pino and Pino-Pretty (dev).
@@ -62,24 +80,6 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 3. Register middleware in `server.ts`.
 4. Write a simple test for logging invocation.
 5. Register `serviceLogger` in Tsyringe container.
-
----
-
-## 4. Configure Tsyringe dependency injection container
-**Purpose:** Enable DI for services and controllers.
-**Goals:**
-- Install Tsyringe.
-- Register core classes (clients, services) in the container.
-
-**Files Created/Modified:**
-- `src/config/container.ts`
-- `package.json`
-
-**Subtasks:**
-1. Install `tsyringe`.
-2. Create `container.ts` and register bindings.
-3. Update entrypoint to initialize the container.
-4. Write a test to resolve a dummy service via Tsyringe.
 
 ---
 

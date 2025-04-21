@@ -1,9 +1,11 @@
 import { baseLogger } from '@be/utils/logger';
 import type { Logger } from 'pino';
+import { injectable } from 'tsyringe';
 
 /**
  * LoggerRegistry manages child logger instances by name.
  */
+@injectable()
 export class LoggerRegistry {
   loggers: Map<string, Logger>;
 
