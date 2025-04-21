@@ -65,25 +65,57 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 
 ---
 
-## 4. Integrate Pino HTTP logging middleware
-**Purpose:** Provide structured request/response logging for all API calls.
+## 4. Implement generic storage abstraction and register two StorageBase instances
+
+**Purpose:**
+Provide a unified storage interface for file operations via a single `StorageBase` class, and configure two distinct instances—one for post images, one for profile images—in the DI container.
+
 **Goals:**
-- Install Pino and Pino-Pretty (dev).
-- Create middleware to log HTTP traffic.
+- Define a `StorageConfig` type capturing connection and bucket settings.
+- Define a `StorageInterface` for common file operations.
+- Implement a `StorageBase` class that instantiates a MinIO client and implements `StorageInterface`.
+- Register two named instances of `StorageBase` in Tsyringe, each with its own bucket configuration.
+- Write unit tests covering `StorageBase` behavior and DI registration.
 
 **Files Created/Modified:**
-- `src/middleware/logger.ts`
-- `package.json` (dependencies)
+- `src/services/storage/interfaces/StorageConfig.ts`
+- `src/services/storage/interfaces/StorageInterface.ts`
+- `src/services/storage/StorageBase.ts`
+- `src/config/container.ts` (register two StorageBase instances: `PostStorage` and `ProfileStorage`)
+- Tests:
+    - `tests/unit/StorageBase.test.ts`
+    - `tests/unit/ContainerStorage.test.ts`
 
 **Subtasks:**
-1. Install `pino` and `pino-pretty`.
-2. Implement `logger.ts` with a Pino instance and Hono middleware.
-3. Register middleware in `server.ts`.
-4. Write a simple test for logging invocation.
-5. Register `serviceLogger` in Tsyringe container.
+1. **Define `StorageConfig`** in `src/services/storage/interfaces/StorageConfig.ts`:
+    - Properties: `endPoint`, `port`, `useSSL`, `accessKey`, `secretKey`, `bucket`.
+2. **Define `StorageInterface`** in `src/services/storage/interfaces/StorageInterface.ts`:
+    - Methods: `saveFile`, `deleteFile`, `getBuffer`, `getFile`, `getPresignedUrl`, `getImageUrl`.
+3. **Implement `StorageBase`** in `src/services/storage/StorageBase.ts`:
+    - Constructor should accept a pre-configured `Minio.Client` instance and a `bucket` string, rather than instantiating the client.
+    - Assign the injected client and bucket to protected fields.
+    - Implement all methods from `StorageInterface`, handling both buffer and file sources using the injected client.
 
----
+4. **Register `Minio.Client` and `StorageBase` instances in `src/config/container.ts`:**
+    - Create and configure a single `Minio.Client` for posts (`postClient`) using `postConfig`, and register: `container.registerInstance<Minio.Client>('PostMinioClient', postClient)`.
+    - Create and configure another `Minio.Client` for profiles (`profileClient`) using `profileConfig`, and register: `container.registerInstance<Minio.Client>('ProfileMinioClient', profileClient)`.
+    - Register storage instances by injecting each client and its bucket:
+      ```ts
+      container.registerInstance<StorageInterface>(
+        'PostStorage',
+        new StorageBase(postClient, postConfig.bucket)
+      )
+      container.registerInstance<StorageInterface>(
+        'ProfileStorage',
+        new StorageBase(profileClient, profileConfig.bucket)
+      )
+      ```
 
+5. **Write unit tests** for `StorageBase`:
+    - Mock `Minio.Client` to verify each method delegates to the correct bucket.
+6. **Write unit tests** for DI registration:
+    - Resolve both `PostStorage` and `ProfileStorage` from the container and assert their `bucket` property matches expected values.
+___
 ## 5. Create MinIO client service with logging and tests
 **Purpose:** Wrap MinIO SDK for object storage operations.
 **Goals:**
@@ -173,6 +205,8 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 **Files Created/Modified:**
 - `src/server.ts`
 - `src/routes/health.ts`, `auth.ts`, `index.ts`
+- `src/middleware/logger.ts`
+- `package.json` (dependencies)
 
 **Subtasks:**
 1. Install `hono`.
