@@ -30,18 +30,20 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 ---
 
 ## 2. Create Pino service logger
+**completed**
 **Purpose:** Provide a separate logger for business-logic layers.
 **Goals:**
 - Instantiate a dedicated Pino instance for services.
-- Make it injectable via Tsyringe.
+- Make it injectable via Tsyringe ( in the DI task)
 
 **Files Created/Modified:**
-- `src/services/serviceLogger.ts`
+- `src/services/LoggerRegistry.ts`
+- `src/utils/logger.ts`
 
 **Subtasks:**
-1. Create `serviceLogger.ts` exporting a Pino logger.
-3. Inject into a sample service and log a message.
-4. Add tests for `serviceLogger` behavior.
+1. Create `logger.ts` exporting a Pino logger.
+2. Create `LoggerRegistry.ts` class to manage module level loggers
+3. Add tests for `LoggerRegistry` behavior.
 
 ---
 ## 3. Integrate Pino HTTP logging middleware

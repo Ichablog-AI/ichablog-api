@@ -34,6 +34,3 @@ export class LoggerRegistry {
     return baseLogger;
   }
 }
-
-const loggerRegistry = new LoggerRegistry();
-export default loggerRegistry;

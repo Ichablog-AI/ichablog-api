@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'bun:test';
-import loggerRegistry from '@be/services/LoggerRegistry';
+import { LoggerRegistry } from '@be/services/LoggerRegistry';
 import { baseLogger } from '@be/utils/logger';
 
 describe('LoggerRegistry', () => {
+  const loggerRegistry = new LoggerRegistry();
   it('returns the same child logger for the same name', () => {
     const log1 = loggerRegistry.getLogger('test');
     const log2 = loggerRegistry.getLogger('test');
