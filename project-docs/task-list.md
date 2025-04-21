@@ -29,7 +29,22 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 
 ---
 
-## 2. Integrate Pino HTTP logging middleware
+## 2. Create Pino service logger
+**Purpose:** Provide a separate logger for business-logic layers.
+**Goals:**
+- Instantiate a dedicated Pino instance for services.
+- Make it injectable via Tsyringe.
+
+**Files Created/Modified:**
+- `src/services/serviceLogger.ts`
+
+**Subtasks:**
+1. Create `serviceLogger.ts` exporting a Pino logger.
+3. Inject into a sample service and log a message.
+4. Add tests for `serviceLogger` behavior.
+
+---
+## 3. Integrate Pino HTTP logging middleware
 **Purpose:** Provide structured request/response logging for all API calls.
 **Goals:**
 - Install Pino and Pino-Pretty (dev).
@@ -44,10 +59,11 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 2. Implement `logger.ts` with a Pino instance and Hono middleware.
 3. Register middleware in `server.ts`.
 4. Write a simple test for logging invocation.
+5. Register `serviceLogger` in Tsyringe container.
 
 ---
 
-## 3. Configure Tsyringe dependency injection container
+## 4. Configure Tsyringe dependency injection container
 **Purpose:** Enable DI for services and controllers.
 **Goals:**
 - Install Tsyringe.
@@ -62,24 +78,6 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 2. Create `container.ts` and register bindings.
 3. Update entrypoint to initialize the container.
 4. Write a test to resolve a dummy service via Tsyringe.
-
----
-
-## 4. Create Pino service logger
-**Purpose:** Provide a separate logger for business-logic layers.
-**Goals:**
-- Instantiate a dedicated Pino instance for services.
-- Make it injectable via Tsyringe.
-
-**Files Created/Modified:**
-- `src/services/serviceLogger.ts`
-- `src/config/container.ts`
-
-**Subtasks:**
-1. Create `serviceLogger.ts` exporting a Pino logger.
-2. Register `serviceLogger` in Tsyringe container.
-3. Inject into a sample service and log a message.
-4. Add tests for `serviceLogger` behavior.
 
 ---
 

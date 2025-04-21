@@ -19,6 +19,9 @@ const config = {
   },
 
   redisUrl: Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379',
+  logger: {
+    level: String(Bun.env.LOGGER_LEVEL ?? 'info'),
+  },
 };
 
 export type AppConfig = typeof config;
