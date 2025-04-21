@@ -1,4 +1,4 @@
-const config = {
+const appConfig = {
   nodeEnv: Bun.env.NODE_ENV ?? 'development',
   port: Number(Bun.env.PORT) || 3000,
 
@@ -24,5 +24,5 @@ const config = {
   },
 };
 
-export type AppConfig = typeof config;
-export default config;
+export type AppConfig = typeof appConfig;
+export default appConfig;

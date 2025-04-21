@@ -1,16 +1,16 @@
-import config from '@be/config';
+import appConfig from '@be/config';
 import pino from 'pino';
 
 /**
  * Logger instance using pino with config from env.
  */
 export const baseLogger = pino({
-  level: config.logger.level,
+  level: appConfig.logger.level,
   transport: {
     targets: [
       {
         target: 'pino-pretty',
-        level: config.logger.level || 'info',
+        level: appConfig.logger.level || 'info',
         options: {
           colorize: true,
           translateTime: 'yyyy-mm-dd HH:MM:ss.l o',
