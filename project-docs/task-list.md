@@ -48,6 +48,7 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 ---
 
 ## 3. Configure Tsyringe dependency injection container
+**complete**
 **Purpose:** Enable DI for services and controllers.
 **Goals:**
 - Install Tsyringe.
