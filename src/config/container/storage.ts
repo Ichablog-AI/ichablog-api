@@ -15,25 +15,25 @@ type PROFILE_IMAGE_STORAGE = typeof PROFILE_IMAGE_STORAGE;
  * Registers all bucket-specific Storage instances in the DI container.
  */
 export const registerStorageBindings = (container: DependencyContainer) => {
-  container.register<MinioClient>(MinioClient, {
-    useFactory: () => new MinioClient(appConfig.minio.clientOptions),
-  });
+    container.register<MinioClient>(MinioClient, {
+        useFactory: () => new MinioClient(appConfig.minio.clientOptions),
+    });
 
-  container.register<Storage>(POST_IMAGE_STORAGE, {
-    useFactory: (c) =>
-      new Storage({
-        loggerRegistry: c.resolve(LoggerRegistry),
-        minioClient: c.resolve(MinioClient),
-        bucketName: 'post',
-      }),
-  });
+    container.register<Storage>(POST_IMAGE_STORAGE, {
+        useFactory: (c) =>
+            new Storage({
+                loggerRegistry: c.resolve(LoggerRegistry),
+                minioClient: c.resolve(MinioClient),
+                bucketName: 'post',
+            }),
+    });
 
-  container.register<Storage>(PROFILE_IMAGE_STORAGE, {
-    useFactory: (c) =>
-      new Storage({
-        loggerRegistry: c.resolve(LoggerRegistry),
-        minioClient: c.resolve(MinioClient),
-        bucketName: 'profile',
-      }),
-  });
+    container.register<Storage>(PROFILE_IMAGE_STORAGE, {
+        useFactory: (c) =>
+            new Storage({
+                loggerRegistry: c.resolve(LoggerRegistry),
+                minioClient: c.resolve(MinioClient),
+                bucketName: 'profile',
+            }),
+    });
 };

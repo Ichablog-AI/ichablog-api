@@ -7,32 +7,32 @@ import { injectable } from 'tsyringe';
  */
 @injectable()
 export class LoggerRegistry {
-  loggers: Map<string, Logger>;
+    loggers: Map<string, Logger>;
 
-  constructor() {
-    this.loggers = new Map();
-  }
-
-  /**
-   * Get or create a named child logger.
-   * @param loggerName The unique name for the child logger.
-   * @returns Logger instance tagged with loggerName.
-   */
-  getLogger(loggerName: string): Logger {
-    if (this.loggers.has(loggerName)) {
-      const cached = this.loggers.get(loggerName);
-      if (cached) return cached;
+    constructor() {
+        this.loggers = new Map();
     }
 
-    const childLogger = baseLogger.child({ loggerName });
-    this.loggers.set(loggerName, childLogger);
-    return childLogger;
-  }
+    /**
+     * Get or create a named child logger.
+     * @param loggerName The unique name for the child logger.
+     * @returns Logger instance tagged with loggerName.
+     */
+    getLogger(loggerName: string): Logger {
+        if (this.loggers.has(loggerName)) {
+            const cached = this.loggers.get(loggerName);
+            if (cached) return cached;
+        }
 
-  /**
-   * Get the base/root logger without child metadata.
-   */
-  getBaseLogger(): Logger {
-    return baseLogger;
-  }
+        const childLogger = baseLogger.child({ loggerName });
+        this.loggers.set(loggerName, childLogger);
+        return childLogger;
+    }
+
+    /**
+     * Get the base/root logger without child metadata.
+     */
+    getBaseLogger(): Logger {
+        return baseLogger;
+    }
 }

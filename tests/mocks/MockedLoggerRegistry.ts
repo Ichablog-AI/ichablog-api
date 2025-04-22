@@ -7,15 +7,15 @@ import type { Logger } from 'pino';
  * @returns {Logger} A mock logger.
  */
 export function createMockLogger(): Logger {
-  return {
-    debug: mock(),
-    error: mock(),
-    info: mock(),
-    warn: mock(),
-    trace: mock(),
-    fatal: mock(),
-    child: mock().mockReturnThis(),
-  } as unknown as Logger;
+    return {
+        debug: mock(),
+        error: mock(),
+        info: mock(),
+        warn: mock(),
+        trace: mock(),
+        fatal: mock(),
+        child: mock().mockReturnThis(),
+    } as unknown as Logger;
 }
 
 /**
@@ -24,9 +24,9 @@ export function createMockLogger(): Logger {
  * @returns {LoggerRegistry} A mock logger registry.
  */
 export function createMockLoggerRegistry(logger?: Logger): LoggerRegistry {
-  const mockLogger = logger ?? createMockLogger();
+    const mockLogger = logger ?? createMockLogger();
 
-  return {
-    getLogger: mock().mockReturnValue(mockLogger),
-  } as unknown as LoggerRegistry;
+    return {
+        getLogger: mock().mockReturnValue(mockLogger),
+    } as unknown as LoggerRegistry;
 }
