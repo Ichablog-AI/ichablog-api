@@ -1,4 +1,5 @@
 import type { ClientOptions as MinioClientOptions } from 'minio';
+
 const appConfig = {
     nodeEnv: Bun.env.NODE_ENV ?? 'development',
     port: Number(Bun.env.PORT) || 3000,
@@ -24,6 +25,12 @@ const appConfig = {
             accessKey: String(Bun.env.MINIO_ACCESS_KEY ?? 'ichablog'),
             secretKey: String(Bun.env.MINIO_SECRET_KEY ?? 'ichablog'),
         } as MinioClientOptions,
+    },
+    cache: {
+        type: String(Bun.env.CACHE_DRIVER ?? 'file'),
+        options: {
+            url: String(Bun.env.CACHE_URL ?? './cache.db'),
+        },
     },
 };
 

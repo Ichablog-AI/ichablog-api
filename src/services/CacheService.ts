@@ -16,7 +16,7 @@ type CacheServiceAdapterType = 'file' | 'redis';
  * @property type - The type of cache adapter to use ('file' or 'redis').
  * @property options - Adapter-specific configuration options (RedisClientOptions or KeyvFileOptions).
  */
-type CacheServiceParams = {
+export type CacheServiceParams = {
     type: CacheServiceAdapterType;
     options: RedisClientOptions | KeyvFileOptions;
 };
