@@ -65,45 +65,26 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 
 ---
 
-## 4. Integrate Pino HTTP logging middleware
-**Purpose:** Provide structured request/response logging for all API calls.
+## 4. Implement generic storage abstraction and register two Storage instances
+**completed**
+**Purpose:**
+Provide a unified storage interface for file operations via a single `Storage` class, and configure two distinct instances—one for post images, one for profile images—in the DI container.
+
 **Goals:**
-- Install Pino and Pino-Pretty (dev).
-- Create middleware to log HTTP traffic.
-
-**Files Created/Modified:**
-- `src/middleware/logger.ts`
-- `package.json` (dependencies)
-
-**Subtasks:**
-1. Install `pino` and `pino-pretty`.
-2. Implement `logger.ts` with a Pino instance and Hono middleware.
-3. Register middleware in `server.ts`.
-4. Write a simple test for logging invocation.
-5. Register `serviceLogger` in Tsyringe container.
-
----
-
-## 5. Create MinIO client service with logging and tests
-**Purpose:** Wrap MinIO SDK for object storage operations.
-**Goals:**
+- Define a `StorageConfig` type capturing connection and bucket settings.
+- Define a `StorageInterface` for common file operations.
+- Implement a `Storage` class that instantiates a MinIO client and implements `StorageInterface`.
+- Register two named instances of `Storage` in Tsyringe, each with its own bucket configuration.
+- Write unit tests covering `Storage` behavior and DI registration.
 - Configure MinIO client using env settings.
-- Integrate service-level logging.
 
 **Files Created/Modified:**
-- `src/services/minioClient.ts`
-- `src/config/index.ts`
-- `src/config/container.ts`
-- Tests in `tests/unit/minioClient.test.ts`
-
-**Subtasks:**
-1. Install `minio` SDK.
-2. Implement `minioClient.ts` with basic `putObject`/`getObject` methods.
-3. Inject `serviceLogger` and log operations.
-4. Register in container.
-5. Write unit tests mocking MinIO.
-
----
+- `src/services/Storage.ts`
+- `src/config/container.ts` (register two Storage instances: `PostStorage` and `ProfileStorage`)
+- Tests:
+    - `tests/unit/servcices/Storage.test.ts`
+    - `tests/unit/integration/Storage.test.ts`
+___
 
 ## 6. Create MeiliSearch client service with logging and tests
 **Purpose:** Provide full-text search indexing and querying.
@@ -173,6 +154,8 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 **Files Created/Modified:**
 - `src/server.ts`
 - `src/routes/health.ts`, `auth.ts`, `index.ts`
+- `src/middleware/logger.ts`
+- `package.json` (dependencies)
 
 **Subtasks:**
 1. Install `hono`.

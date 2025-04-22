@@ -1,12 +1,13 @@
 version: '3.9'
 name: ichablog-be
+
 services:
   redis:
     image: redis:7-alpine
     container_name: ichablog_redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT:-6379}:6379"
     volumes:
       - ../data/redis_data:/data
 
@@ -20,7 +21,7 @@ services:
       MYSQL_USER: ichablog
       MYSQL_PASSWORD: ichablog
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - ../data/mariadb_data:/var/lib/mysql
 
@@ -32,8 +33,8 @@ services:
       MINIO_ROOT_USER: ichablog
       MINIO_ROOT_PASSWORD: ichablog
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
     command: server /data --console-address ":9001"
     volumes:
       - ../data/minio_data:/data
@@ -43,9 +44,24 @@ services:
     container_name: ichablog_meilisearch
     restart: unless-stopped
     ports:
-      - "7700:7700"
+      - "${MEILISEARCH_PORT:-7700}:7700"
     environment:
       MEILI_NO_ANALYTICS: "true"
       MEILI_MASTER_KEY: "masterKey"
     volumes:
       - ../data/meili_data:/meili_data
+
+  bun:
+    image: oven/bun:1.2.9-alpine
+    container_name: ichablog_bun
+    working_dir: /app
+    volumes:
+      - ../:/app
+    command: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - redis
+      - mariadb
+      - minio
+      - meilisearch
+    env_file:
+      - .env

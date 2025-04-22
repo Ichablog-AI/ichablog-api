@@ -31,6 +31,7 @@
     "baseUrl": ".",
     "paths": {
       "@be/*": ["./src/*"],
+      "@be/test-mocks/*": ["./tests/mocks/*"],
       "@be/test-helpers/*": ["./tests/helpers/*"]
     }
   }
