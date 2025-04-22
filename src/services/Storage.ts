@@ -40,25 +40,16 @@ export class Storage {
      * @param fileName - The destination file name in the bucket.
      * @param source - The file content as Buffer or path string.
      */
-    async saveFile(
-        fileName: string,
-        source: Buffer | string
-    ): Promise<UploadedObjectInfo> {
+    async saveFile(fileName: string, source: Buffer | string): Promise<UploadedObjectInfo> {
         this.logger.debug(`Saving file ${fileName} to bucket ${this.bucket}`);
         try {
             const response = Buffer.isBuffer(source)
                 ? await this.client.putObject(this.bucket, fileName, source)
                 : await this.client.fPutObject(this.bucket, fileName, source);
-            this.logger.debug(
-                response,
-                `Successfully saved file ${fileName} to bucket ${this.bucket}`
-            );
+            this.logger.debug(response, `Successfully saved file ${fileName} to bucket ${this.bucket}`);
             return response;
         } catch (error) {
-            this.logger.error(
-                error,
-                `Failed to save file ${fileName} to bucket ${this.bucket}`
-            );
+            this.logger.error(error, `Failed to save file ${fileName} to bucket ${this.bucket}`);
             throw error;
         }
     }
@@ -68,19 +59,12 @@ export class Storage {
      * @param fileName - The file name to delete.
      */
     async deleteFile(fileName: string): Promise<void> {
-        this.logger.debug(
-            `Deleting file ${fileName} from bucket ${this.bucket}`
-        );
+        this.logger.debug(`Deleting file ${fileName} from bucket ${this.bucket}`);
         try {
             await this.client.removeObject(this.bucket, fileName);
-            this.logger.debug(
-                `Successfully deleted file ${fileName} from bucket ${this.bucket}`
-            );
+            this.logger.debug(`Successfully deleted file ${fileName} from bucket ${this.bucket}`);
         } catch (error) {
-            this.logger.error(
-                error,
-                `Failed to delete file ${fileName} from bucket ${this.bucket}`
-            );
+            this.logger.error(error, `Failed to delete file ${fileName} from bucket ${this.bucket}`);
             throw error;
         }
     }
@@ -91,9 +75,7 @@ export class Storage {
      * @returns A Promise resolving to the file content as Buffer.
      */
     async getBuffer(fileName: string): Promise<Buffer> {
-        this.logger.debug(
-            `Retrieving file ${fileName} from bucket ${this.bucket}`
-        );
+        this.logger.debug(`Retrieving file ${fileName} from bucket ${this.bucket}`);
 
         try {
             const stream = await this.client.getObject(this.bucket, fileName);
@@ -110,15 +92,10 @@ export class Storage {
             const uint8 = sink.end() as Uint8Array;
             const result = Buffer.from(uint8);
 
-            this.logger.debug(
-                `Successfully retrieved file ${fileName} from bucket ${this.bucket}`
-            );
+            this.logger.debug(`Successfully retrieved file ${fileName} from bucket ${this.bucket}`);
             return result;
         } catch (error) {
-            this.logger.error(
-                error,
-                `Failed to retrieve file ${fileName} from bucket ${this.bucket}`
-            );
+            this.logger.error(error, `Failed to retrieve file ${fileName} from bucket ${this.bucket}`);
             throw error;
         }
     }

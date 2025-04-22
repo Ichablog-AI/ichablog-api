@@ -1,10 +1,7 @@
 import { afterEach, describe, expect, it, spyOn } from 'bun:test';
 import { Readable } from 'node:stream';
 import { Storage } from '@be/services/Storage';
-import {
-    createMockLogger,
-    createMockLoggerRegistry,
-} from '@be/test-mocks/MockedLoggerRegistry';
+import { createMockLogger, createMockLoggerRegistry } from '@be/test-mocks/MockedLoggerRegistry';
 import { createMockMinioClient } from '@be/test-mocks/MockedMinioClient';
 
 // Helper to create Storage instance with mocks and access to logger and client
@@ -51,9 +48,7 @@ describe('Storage', () => {
         const { instance, loggerRegistry } = createStorage();
         expect(instance).toBeInstanceOf(Storage);
         expect(loggerRegistry.getLogger).toHaveBeenCalledTimes(1);
-        expect(loggerRegistry.getLogger).toHaveBeenCalledWith(
-            'MinioClient/test-bucket'
-        );
+        expect(loggerRegistry.getLogger).toHaveBeenCalledWith('MinioClient/test-bucket');
     });
 
     describe('saveFile', () => {
@@ -67,15 +62,9 @@ describe('Storage', () => {
             const result = await instance.saveFile(fileName, content);
 
             expect(minioClient.putObject).toHaveBeenCalledTimes(1);
-            expect(minioClient.putObject).toHaveBeenCalledWith(
-                'test-bucket',
-                fileName,
-                content
-            );
+            expect(minioClient.putObject).toHaveBeenCalledWith('test-bucket', fileName, content);
             expect(result).toEqual(fakeResponse);
-            expect(mockLogger.debug).toHaveBeenCalledWith(
-                `Saving file ${fileName} to bucket test-bucket`
-            );
+            expect(mockLogger.debug).toHaveBeenCalledWith(`Saving file ${fileName} to bucket test-bucket`);
             expect(mockLogger.debug).toHaveBeenCalledWith(
                 fakeResponse,
                 `Successfully saved file ${fileName} to bucket test-bucket`
@@ -92,15 +81,9 @@ describe('Storage', () => {
             const result = await instance.saveFile(fileName, filePath);
 
             expect(minioClient.fPutObject).toHaveBeenCalledTimes(1);
-            expect(minioClient.fPutObject).toHaveBeenCalledWith(
-                'test-bucket',
-                fileName,
-                filePath
-            );
+            expect(minioClient.fPutObject).toHaveBeenCalledWith('test-bucket', fileName, filePath);
             expect(result).toEqual(fakeResponse);
-            expect(mockLogger.debug).toHaveBeenCalledWith(
-                `Saving file ${fileName} to bucket test-bucket`
-            );
+            expect(mockLogger.debug).toHaveBeenCalledWith(`Saving file ${fileName} to bucket test-bucket`);
             expect(mockLogger.debug).toHaveBeenCalledWith(
                 fakeResponse,
                 `Successfully saved file ${fileName} to bucket test-bucket`
@@ -114,13 +97,8 @@ describe('Storage', () => {
             const fileName = 'file-buffer-error.txt';
             const content = Buffer.from('bad content');
 
-            expect(instance.saveFile(fileName, content)).rejects.toThrowError(
-                err
-            );
-            expect(mockLogger.error).toHaveBeenCalledWith(
-                err,
-                `Failed to save file ${fileName} to bucket test-bucket`
-            );
+            expect(instance.saveFile(fileName, content)).rejects.toThrowError(err);
+            expect(mockLogger.error).toHaveBeenCalledWith(err, `Failed to save file ${fileName} to bucket test-bucket`);
         });
     });
 
@@ -133,13 +111,8 @@ describe('Storage', () => {
             await instance.deleteFile(fileName);
 
             expect(minioClient.removeObject).toHaveBeenCalledTimes(1);
-            expect(minioClient.removeObject).toHaveBeenCalledWith(
-                'test-bucket',
-                fileName
-            );
-            expect(mockLogger.debug).toHaveBeenCalledWith(
-                `Deleting file ${fileName} from bucket test-bucket`
-            );
+            expect(minioClient.removeObject).toHaveBeenCalledWith('test-bucket', fileName);
+            expect(mockLogger.debug).toHaveBeenCalledWith(`Deleting file ${fileName} from bucket test-bucket`);
             expect(mockLogger.debug).toHaveBeenCalledWith(
                 `Successfully deleted file ${fileName} from bucket test-bucket`
             );
@@ -172,9 +145,7 @@ describe('Storage', () => {
             const result = await instance.getBuffer('file-buffer.txt');
 
             expect(result.toString()).toBe('hello world');
-            expect(mockLogger.debug).toHaveBeenCalledWith(
-                'Retrieving file file-buffer.txt from bucket test-bucket'
-            );
+            expect(mockLogger.debug).toHaveBeenCalledWith('Retrieving file file-buffer.txt from bucket test-bucket');
             expect(mockLogger.debug).toHaveBeenCalledWith(
                 'Successfully retrieved file file-buffer.txt from bucket test-bucket'
             );
@@ -187,9 +158,7 @@ describe('Storage', () => {
 
             spyOn(minioClient, 'getObject').mockResolvedValue(stream);
 
-            expect(instance.getBuffer('file-error.txt')).rejects.toThrow(
-                'stream failure'
-            );
+            expect(instance.getBuffer('file-error.txt')).rejects.toThrow('stream failure');
             expect(mockLogger.error).toHaveBeenCalledWith(
                 error,
                 'Failed to retrieve file file-error.txt from bucket test-bucket'
@@ -201,9 +170,7 @@ describe('Storage', () => {
             const error = new Error('getObject failure');
             spyOn(minioClient, 'getObject').mockRejectedValue(error);
 
-            expect(instance.getBuffer('file-get-error.txt')).rejects.toThrow(
-                error
-            );
+            expect(instance.getBuffer('file-get-error.txt')).rejects.toThrow(error);
             expect(mockLogger.error).toHaveBeenCalledWith(
                 error,
                 'Failed to retrieve file file-get-error.txt from bucket test-bucket'

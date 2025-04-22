@@ -18,9 +18,7 @@ const appConfig = {
     },
     minio: {
         clientOptions: {
-            useSSL:
-                String(Bun.env.MINIO_USE_SSL) === 'true' ||
-                Number(Bun.env.MINIO_USE_SSL) === 1,
+            useSSL: String(Bun.env.MINIO_USE_SSL) === 'true' || Number(Bun.env.MINIO_USE_SSL) === 1,
             endPoint: String(Bun.env.MINIO_ENDPOINT ?? '127.0.0.1'),
             port: Number(Bun.env.MINIO_PORT || 9000),
             accessKey: String(Bun.env.MINIO_ACCESS_KEY ?? 'ichablog'),

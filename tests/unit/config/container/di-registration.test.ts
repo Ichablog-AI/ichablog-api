@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'bun:test';
 import { appContainer } from '@be/config/container';
-import {
-    POST_IMAGE_STORAGE,
-    PROFILE_IMAGE_STORAGE,
-} from '@be/config/container/storage';
+import { POST_IMAGE_STORAGE, PROFILE_IMAGE_STORAGE } from '@be/config/container/storage';
 import { LoggerRegistry } from '@be/services/LoggerRegistry';
 import { Storage } from '@be/services/Storage';
 import * as minio from 'minio';
