@@ -49,3 +49,28 @@ services:
       MEILI_MASTER_KEY: "masterKey"
     volumes:
       - ../data/meili_data:/meili_data
+
+  bun:
+    image: oven/bun:1.2.9-alpine
+    container_name: ichablog_bun
+    working_dir: /app
+    volumes:
+      - ../:/app
+    command: ["tail", "-f", "/dev/null"]
+    depends_on:
+      - redis
+      - mariadb
+      - minio
+      - meilisearch
+    environment:
+      MYSQL_HOST: mariadb
+      MYSQL_PORT: 3306
+      MYSQL_USER: ichablog
+      MYSQL_PASSWORD: ichablog
+      MYSQL_DATABASE: ichablog
+      REDIS_URL: redis://redis:6379
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: ichablog
+      MINIO_SECRET_KEY: ichablog
+      MEILISEARCH_HOST: http://meilisearch:77
