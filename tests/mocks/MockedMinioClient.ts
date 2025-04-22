@@ -6,16 +6,16 @@ import type { Client as MinioClient } from 'minio';
  * @returns {MinioClient} A mock Minio client.
  */
 export function createMockMinioClient(): MinioClient {
-  return {
-    putObject: mock(),
-    fPutObject: mock(),
-    getObject: mock(),
-    removeObject: mock(),
-    listObjectsV2: mock(),
-    listBuckets: mock(),
-    makeBucket: mock(),
-    bucketExists: mock(),
-    removeBucket: mock(),
-    // Add other MinIO Client methods you use here with mock()
-  } as unknown as MinioClient;
+    return {
+        putObject: mock(),
+        fPutObject: mock(),
+        getObject: mock(),
+        removeObject: mock(),
+        listObjectsV2: mock(),
+        listBuckets: mock(),
+        makeBucket: mock(),
+        bucketExists: mock(),
+        removeBucket: mock(),
+        // Add other MinIO Client methods you use here with mock()
+    } as unknown as MinioClient;
 }

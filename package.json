@@ -1,33 +1,33 @@
 {
-  "name": "ichablog-api",
-  "module": "index.ts",
-  "type": "module",
-  "scripts": {
-    "reinstall": "rm -rf node_modules bun.lockb && bun install",
-    "docker": "docker compose --env-file docker/.env -f docker/docker-compose.yml",
-    "docker:start": "bun run docker up -d",
-    "docker:stop": "bun run docker down",
-    "docker:build": "bun run docker build",
-    "docker:restart": "bun run docker:stop && bun run docker:start",
-    "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'CI detected: skipping lefthook install'; else bunx lefthook install; fi",
-    "lint": "bun biome check .",
-    "lint:fix": "bun biome check --write"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@commitlint/cli": "^19.8.0",
-    "@commitlint/config-conventional": "^19.8.0",
-    "@types/bun": "latest",
-    "lefthook": "^1.11.10"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "minio": "^8.0.5",
-    "pino": "^9.6.0",
-    "pino-pretty": "^13.0.0",
-    "reflect-metadata": "^0.2.2",
-    "tsyringe": "^4.10.0"
-  }
+    "name": "ichablog-api",
+    "module": "index.ts",
+    "type": "module",
+    "scripts": {
+        "reinstall": "rm -rf node_modules bun.lockb && bun install",
+        "docker": "docker compose --env-file docker/.env -f docker/docker-compose.yml",
+        "docker:start": "bun run docker up -d",
+        "docker:stop": "bun run docker down",
+        "docker:build": "bun run docker build",
+        "docker:restart": "bun run docker:stop && bun run docker:start",
+        "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'CI detected: skipping lefthook install'; else bunx lefthook install; fi",
+        "lint": "bun biome check .",
+        "lint:fix": "bun biome check --write"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@commitlint/cli": "^19.8.0",
+        "@commitlint/config-conventional": "^19.8.0",
+        "@types/bun": "latest",
+        "lefthook": "^1.11.10"
+    },
+    "peerDependencies": {
+        "typescript": "^5.0.0"
+    },
+    "dependencies": {
+        "minio": "^8.0.5",
+        "pino": "^9.6.0",
+        "pino-pretty": "^13.0.0",
+        "reflect-metadata": "^0.2.2",
+        "tsyringe": "^4.10.0"
+    }
 }
