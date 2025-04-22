@@ -65,77 +65,26 @@ A breakdown of PR‑sized tasks with purpose, goals, expected files, and subtask
 
 ---
 
-## 4. Implement generic storage abstraction and register two StorageBase instances
-
+## 4. Implement generic storage abstraction and register two Storage instances
+**completed**
 **Purpose:**
-Provide a unified storage interface for file operations via a single `StorageBase` class, and configure two distinct instances—one for post images, one for profile images—in the DI container.
+Provide a unified storage interface for file operations via a single `Storage` class, and configure two distinct instances—one for post images, one for profile images—in the DI container.
 
 **Goals:**
 - Define a `StorageConfig` type capturing connection and bucket settings.
 - Define a `StorageInterface` for common file operations.
-- Implement a `StorageBase` class that instantiates a MinIO client and implements `StorageInterface`.
-- Register two named instances of `StorageBase` in Tsyringe, each with its own bucket configuration.
-- Write unit tests covering `StorageBase` behavior and DI registration.
-
-**Files Created/Modified:**
-- `src/services/storage/interfaces/StorageConfig.ts`
-- `src/services/storage/interfaces/StorageInterface.ts`
-- `src/services/storage/StorageBase.ts`
-- `src/config/container.ts` (register two StorageBase instances: `PostStorage` and `ProfileStorage`)
-- Tests:
-    - `tests/unit/StorageBase.test.ts`
-    - `tests/unit/ContainerStorage.test.ts`
-
-**Subtasks:**
-1. **Define `StorageConfig`** in `src/services/storage/interfaces/StorageConfig.ts`:
-    - Properties: `endPoint`, `port`, `useSSL`, `accessKey`, `secretKey`, `bucket`.
-2. **Define `StorageInterface`** in `src/services/storage/interfaces/StorageInterface.ts`:
-    - Methods: `saveFile`, `deleteFile`, `getBuffer`, `getFile`, `getPresignedUrl`, `getImageUrl`.
-3. **Implement `StorageBase`** in `src/services/storage/StorageBase.ts`:
-    - Constructor should accept a pre-configured `Minio.Client` instance and a `bucket` string, rather than instantiating the client.
-    - Assign the injected client and bucket to protected fields.
-    - Implement all methods from `StorageInterface`, handling both buffer and file sources using the injected client.
-
-4. **Register `Minio.Client` and `StorageBase` instances in `src/config/container.ts`:**
-    - Create and configure a single `Minio.Client` for posts (`postClient`) using `postConfig`, and register: `container.registerInstance<Minio.Client>('PostMinioClient', postClient)`.
-    - Create and configure another `Minio.Client` for profiles (`profileClient`) using `profileConfig`, and register: `container.registerInstance<Minio.Client>('ProfileMinioClient', profileClient)`.
-    - Register storage instances by injecting each client and its bucket:
-      ```ts
-      container.registerInstance<StorageInterface>(
-        'PostStorage',
-        new StorageBase(postClient, postConfig.bucket)
-      )
-      container.registerInstance<StorageInterface>(
-        'ProfileStorage',
-        new StorageBase(profileClient, profileConfig.bucket)
-      )
-      ```
-
-5. **Write unit tests** for `StorageBase`:
-    - Mock `Minio.Client` to verify each method delegates to the correct bucket.
-6. **Write unit tests** for DI registration:
-    - Resolve both `PostStorage` and `ProfileStorage` from the container and assert their `bucket` property matches expected values.
-___
-## 5. Create MinIO client service with logging and tests
-**Purpose:** Wrap MinIO SDK for object storage operations.
-**Goals:**
+- Implement a `Storage` class that instantiates a MinIO client and implements `StorageInterface`.
+- Register two named instances of `Storage` in Tsyringe, each with its own bucket configuration.
+- Write unit tests covering `Storage` behavior and DI registration.
 - Configure MinIO client using env settings.
-- Integrate service-level logging.
 
 **Files Created/Modified:**
-- `src/services/minioClient.ts`
-- `src/config/index.ts`
-- `src/config/container.ts`
-- Tests in `tests/unit/minioClient.test.ts`
-
-**Subtasks:**
-1. Install `minio` SDK.
-2. Implement `minioClient.ts` with basic `putObject`/`getObject` methods.
-3. Inject `serviceLogger` and log operations.
-4. Register in container.
-5. Write unit tests mocking MinIO.
-
----
+- `src/services/Storage.ts`
+- `src/config/container.ts` (register two Storage instances: `PostStorage` and `ProfileStorage`)
+- Tests:
+    - `tests/unit/servcices/Storage.test.ts`
+    - `tests/unit/integration/Storage.test.ts`
+___
 
 ## 6. Create MeiliSearch client service with logging and tests
 **Purpose:** Provide full-text search indexing and querying.
