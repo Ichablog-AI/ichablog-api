@@ -107,17 +107,16 @@ ___
 - Expose methods for indexing and search.
 
 **Files Created/Modified:**
-- `src/services/meiliClient.ts`
+- `src/services/SearchService.ts`
 - `src/config/index.ts`
 - `src/config/container.ts`
-- Tests in `tests/unit/meiliClient.test.ts`
+- Tests in `tests/unit/services/SearchService.test.ts`
 
 **Subtasks:**
 1. Install `meilisearch` SDK.
-2. Implement `meiliClient.ts` with `indexDocument` and `search`.
-3. Inject `serviceLogger`.
-4. Register in container.
-5. Write unit tests mocking MeiliSearch.
+2. Inject `serviceLogger`.
+3. Register in container.
+4. Write unit tests mocking MeiliSearch.
 
 ---
 
