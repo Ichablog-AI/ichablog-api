@@ -9,6 +9,7 @@
         "docker:stop": "bun run docker down",
         "docker:build": "bun run docker build",
         "docker:restart": "bun run docker:stop && bun run docker:start",
+        "docker:bun": "docker exec -it ichablog_bun ash",
         "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'CI detected: skipping lefthook install'; else bunx lefthook install; fi",
         "lint": "bun biome check .",
         "lint:fix": "bun biome check --write"

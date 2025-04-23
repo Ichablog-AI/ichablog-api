@@ -1,5 +1,6 @@
 import appConfig from '@be/config';
 import { CacheService, type CacheServiceParams } from '@be/services/CacheService';
+import { LoggerRegistry } from '@be/services/LoggerRegistry'; // Make sure this import is correct
 import type { DependencyContainer } from 'tsyringe';
 
 /**
@@ -7,6 +8,10 @@ import type { DependencyContainer } from 'tsyringe';
  */
 export const registerCacheBindings = (container: DependencyContainer) => {
     container.register<CacheService>(CacheService, {
-        useFactory: () => new CacheService(appConfig.cache as CacheServiceParams),
+        useFactory: (c) =>
+            new CacheService({
+                ...(appConfig.cache as CacheServiceParams),
+                loggerRegistry: c.resolve(LoggerRegistry),
+            }),
     });
 };

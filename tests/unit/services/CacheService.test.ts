@@ -1,14 +1,27 @@
 import { beforeEach, describe, expect, it, spyOn } from 'bun:test';
-import { CacheService } from '@be/services/CacheService';
+import { CacheService, type CacheServiceParams } from '@be/services/CacheService';
+import { LoggerRegistry } from '@be/services/LoggerRegistry'; // Import LoggerRegistry
+import { createMockLoggerRegistry } from '@be/test-mocks/MockedLoggerRegistry';
+import pino from 'pino'; // Import pino or your logger implementation
 
 describe('CacheService', () => {
     let cacheService: CacheService;
 
-    beforeEach(async () => {
-        // Initialize CacheService before each test (uses default in-memory adapter)
-        cacheService = new CacheService();
-        // Clear cache before each test to ensure isolation
-        await cacheService.clear();
+    beforeEach(() => {
+        // Instantiate CacheService with required loggerRegistry
+        // Assuming default in-memory adapter for these tests
+        // You might need to adjust 'type' and 'options' if testing other adapters
+        cacheService = new CacheService({
+            // Provide minimal valid options for the default adapter if necessary,
+            // or adjust based on how your constructor handles defaults now.
+            // If the default Keyv() doesn't need type/options, this might be simpler.
+            // For clarity, let's assume it might need dummy values if params are strictly required
+            type: 'file', // Or another type if needed, or remove if default works
+            options: {}, // Provide dummy options
+            loggerRegistry: createMockLoggerRegistry(), // Pass the mock registry
+        });
+        // Clear cache before each test
+        return cacheService.clear();
     });
 
     it('should correctly perform basic cache operations', async () => {
