@@ -10,7 +10,7 @@ import type { Logger } from 'pino';
  * - 'file': In-memory file-based storage adapter (KeyvFile).
  * - 'redis': Redis backend adapter via KeyvRedis.
  */
-type CacheServiceAdapterType = 'file' | 'redis';
+type CacheServiceAdapterType = 'file' | 'redis' | 'memory';
 
 /**
  * Configuration parameters for CacheService construction.
