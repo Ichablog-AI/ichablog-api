@@ -9,6 +9,7 @@
         "docker:stop": "bun run docker down",
         "docker:build": "bun run docker build",
         "docker:restart": "bun run docker:stop && bun run docker:start",
+        "docker:bun": "docker exec -it ichablog_bun ash",
         "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'CI detected: skipping lefthook install'; else bunx lefthook install; fi",
         "lint": "bun biome check .",
         "lint:fix": "bun biome check --write"
@@ -24,6 +25,9 @@
         "typescript": "^5.0.0"
     },
     "dependencies": {
+        "@keyv/redis": "^4.3.4",
+        "keyv": "^5.3.3",
+        "keyv-file": "^5.1.2",
         "minio": "^8.0.5",
         "pino": "^9.6.0",
         "pino-pretty": "^13.0.0",

@@ -86,6 +86,20 @@ Provide a unified storage interface for file operations via a single `Storage` c
     - `tests/unit/integration/Storage.test.ts`
 ___
 
+## 5. Create caching service with logging and tests
+**Purpose:** Provide a caching service using KeyV
+
+**Files Created/Modified:**
+- `src/services/CacheService.ts`
+- `src/config/index.ts`
+- `src/config/container/`
+- Tests in `tests/unit/services/CacheService.test.ts`
+
+**Subtasks:**
+1. Install `keyv` 
+2. Write unit tests mocking Redis.
+
+---
 ## 6. Create MeiliSearch client service with logging and tests
 **Purpose:** Provide full-text search indexing and querying.
 **Goals:**
