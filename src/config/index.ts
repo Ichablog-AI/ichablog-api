@@ -1,3 +1,4 @@
+import type { Config as MeiliSearchConfig } from 'meilisearch';
 import type { ClientOptions as MinioClientOptions } from 'minio';
 
 const appConfig = {
@@ -7,11 +8,6 @@ const appConfig = {
     databaseUrl: Bun.env.DATABASE_URL ?? '',
 
     jwtSecret: Bun.env.JWT_SECRET ?? '',
-
-    meilisearch: {
-        host: Bun.env.MEILISEARCH_HOST ?? 'http://127.0.0.1:7700',
-        apiKey: Bun.env.MEILISEARCH_API_KEY ?? '',
-    },
 
     redisUrl: Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379',
     logger: {
@@ -31,6 +27,12 @@ const appConfig = {
         options: {
             url: String(Bun.env.CACHE_URL ?? './cache.db'),
         },
+    },
+    meilisearch: {
+        clientOptions: {
+            host: String(Bun.env.MEILISEARCH_HOST ?? 'http://meilisearch:7700'),
+            apiKey: String(Bun.env.MEILISEARCH_API_KEY ?? 'masterKey'),
+        } as MeiliSearchConfig,
     },
 };
 
