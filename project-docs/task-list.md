@@ -87,6 +87,7 @@ Provide a unified storage interface for file operations via a single `Storage` c
 ___
 
 ## 5. Create caching service with logging and tests
+**completed**
 **Purpose:** Provide a caching service using KeyV
 
 **Files Created/Modified:**
@@ -100,24 +101,24 @@ ___
 2. Write unit tests mocking Redis.
 
 ---
-## 6. Create MeiliSearch client service with logging and tests
-**Purpose:** Provide full-text search indexing and querying.
-**Goals:**
-- Configure MeiliSearch client.
-- Expose methods for indexing and search.
 
-**Files Created/Modified:**
-- `src/services/meiliClient.ts`
-- `src/config/index.ts`
-- `src/config/container.ts`
-- Tests in `tests/unit/meiliClient.test.ts`
+## 6. Create MeiliSearch service with logging and tests
+**completed**
+**Purpose:** Enable flexible, testable full-text indexing and querying.
 
-**Subtasks:**
-1. Install `meilisearch` SDK.
-2. Implement `meiliClient.ts` with `indexDocument` and `search`.
-3. Inject `serviceLogger`.
-4. Register in container.
-5. Write unit tests mocking MeiliSearch.
+**Highlights:**
+- Accepts dynamic `indexName` and optional `filterableAttributes`.
+- Injects `MeiliSearch` client and logger for testability.
+- Provides methods: `upsertDocuments`, `getDocuments`, `search`, `deleteDocumentsById`, `dropDocuments`.
+- Auto-registers missing filterable attributes (if provided).
+
+**Files:**
+- `src/services/SearchService.ts`
+- `tests/services/search/SearchService.test.ts`
+- `tests/test-mocks/MockedMeiliSearchClient.ts`
+
+**Tests:**
+- Covers pagination, query options, and all exposed methods
 
 ---
 
