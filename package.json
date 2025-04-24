@@ -11,6 +11,12 @@
         "docker:restart": "bun run docker:stop && bun run docker:start",
         "docker:bun": "docker exec -it ichablog_bun ash",
         "prepare": "if [ \"$CI\" = \"true\" ]; then echo 'CI detected: skipping lefthook install'; else bunx lefthook install; fi",
+        "typeorm": "bun run scripts/typeorm/run.sh",
+        "typeorm:generate": "bun run typeorm migration:generate src/database/migrations/AutoMigration",
+        "typeorm:run": "bun run typeorm migration:run",
+        "typeorm:revert": "bun run typeorm migration:revert",
+        "typeorm:drop": "bun run typeorm schema:drop",
+        "typeorm:show": "bun run typeorm migration:show",
         "lint": "bun biome check .",
         "lint:fix": "bun biome check --write"
     },
@@ -30,9 +36,11 @@
         "keyv-file": "^5.1.2",
         "meilisearch": "^0.50.0",
         "minio": "^8.0.5",
+        "mysql2": "^3.14.0",
         "pino": "^9.6.0",
         "pino-pretty": "^13.0.0",
         "reflect-metadata": "^0.2.2",
-        "tsyringe": "^4.10.0"
+        "tsyringe": "^4.10.0",
+        "typeorm": "^0.3.22"
     }
 }
