@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArticleEntity } from '@be/entities/ArticleEntity';
 import { UserEntity } from '@be/entities/UserEntity';
 import {
@@ -12,10 +13,7 @@ import {
 } from 'typeorm';
 
 @Entity('blog_domains')
-export class BlogDomainEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class BlogDomainEntity extends AppEntity {
     @Column({ unique: true, length: 255 })
     domain: string;
 
@@ -30,12 +28,6 @@ export class BlogDomainEntity {
 
     @Column({ type: 'varchar', length: 255, nullable: true })
     faviconKey?: string | null; // MinIO object key for favicon
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @ManyToMany(
         () => UserEntity,

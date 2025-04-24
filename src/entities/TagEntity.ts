@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArticleEntity } from '@be/entities/ArticleEntity';
 import {
     Column,
@@ -11,10 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity('tags')
-export class TagEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class TagEntity extends AppEntity {
     @Index({ unique: true })
     @Column({ length: 255 })
     name: string;
@@ -25,12 +23,6 @@ export class TagEntity {
 
     @Column({ type: 'text', nullable: true })
     description?: string | null;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @ManyToMany(
         () => ArticleEntity,

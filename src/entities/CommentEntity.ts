@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArticleEntity } from '@be/entities/ArticleEntity';
 import {
     Column,
@@ -15,10 +16,7 @@ import {
 
 @Entity('comments')
 @Tree('materialized-path')
-export class CommentEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class CommentEntity extends AppEntity {
     @Column({ type: 'text' })
     content: string;
 
@@ -33,12 +31,6 @@ export class CommentEntity {
 
     @Column({ default: 'pending' }) // e.g., 'pending', 'approved', 'spam'
     status: string;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @ManyToOne(
         () => ArticleEntity,

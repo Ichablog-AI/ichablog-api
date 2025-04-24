@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArticleEntity } from '@be/entities/ArticleEntity';
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedColumn, type Relation } from 'typeorm';
 // Import TagEntity and CategoryEntity if needed for foreign key constraint,
@@ -6,10 +7,7 @@ import { Column, CreateDateColumn, Entity, Index, ManyToOne, PrimaryGeneratedCol
 
 @Entity('archived_slugs')
 @Index(['type', 'foreignEntityId']) // Index for querying by entity
-export class ArchivedSlugEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class ArchivedSlugEntity extends AppEntity {
     @Index()
     @Column({ length: 255 })
     slug: string;

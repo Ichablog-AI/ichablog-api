@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArchivedSlugEntity } from '@be/entities/ArchivedSlugEntity';
 import { BlogDomainEntity } from '@be/entities/BlogDomainEntity';
 import { CategoryEntity } from '@be/entities/CategoryEntity';
@@ -19,10 +20,7 @@ import {
 } from 'typeorm';
 
 @Entity('articles')
-export class ArticleEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class ArticleEntity extends AppEntity {
     @Index()
     @Column({ length: 255 })
     title: string;
@@ -40,14 +38,8 @@ export class ArticleEntity {
     @Column({ default: 'draft' }) // e.g., 'draft', 'published', 'archived'
     status: string;
 
-    @Column({ type: 'timestamp', nullable: true })
+    @Column({ nullable: true })
     publishedAt?: Date | null;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @VersionColumn()
     version: number;

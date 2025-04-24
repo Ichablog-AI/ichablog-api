@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { ArticleEntity } from '@be/entities/ArticleEntity';
 import {
     Column,
@@ -15,10 +16,7 @@ import {
 
 @Entity('categories')
 @Tree('materialized-path')
-export class CategoryEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class CategoryEntity extends AppEntity {
     @Index({ unique: true })
     @Column({ length: 255 })
     name: string;
@@ -29,12 +27,6 @@ export class CategoryEntity {
 
     @Column({ type: 'text', nullable: true })
     description?: string | null;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @TreeChildren()
     children: Relation<CategoryEntity[]>;

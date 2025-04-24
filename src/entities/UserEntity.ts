@@ -1,3 +1,4 @@
+import { AppEntity } from '@be/database/AppEntity';
 import { BlogDomainEntity } from '@be/entities/BlogDomainEntity';
 import {
     Column,
@@ -11,10 +12,7 @@ import {
 } from 'typeorm';
 
 @Entity('users')
-export class UserEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
-
+export class UserEntity extends AppEntity {
     @Column({ length: 255 })
     name: string;
 
@@ -35,12 +33,6 @@ export class UserEntity {
 
     @Column({ type: 'text', nullable: true })
     bio?: string | null;
-
-    @CreateDateColumn()
-    createdAt: Date;
-
-    @UpdateDateColumn()
-    updatedAt: Date;
 
     @ManyToMany(
         () => BlogDomainEntity,
