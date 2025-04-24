@@ -35,9 +35,13 @@ const appConfig = {
     },
     database: {
         db: {
-            databaseUrl: Bun.env.DATABASE_URL ?? 'mysql://@127.0.0.1:3306/ichablog',
-            type: 'sqlite',
-            database: './db/curated.db',
+            type: 'mariadb',
+            driver: require('mysql2'),
+            url: Bun.env.DATABASE_URL ?? 'mysql://@127.0.0.1:3306/ichablog',
+            synchronize: false,
+            logging: false,
+            entities: [`${import.meta.dir}/../entities/*.ts`],
+            migrations: [`${import.meta.dir}/migrations/**/*.ts`],
         } as DataSourceOptions,
     },
 };
