@@ -6,8 +6,8 @@ import type { Logger } from 'pino';
  * Creates a reusable mock logger instance.
  * @returns {Logger} A mock logger.
  */
-export function createMockLogger(): Logger {
-    return {
+export const createMockLogger = (): Logger =>
+    ({
         debug: mock(),
         error: mock(),
         info: mock(),
@@ -15,8 +15,7 @@ export function createMockLogger(): Logger {
         trace: mock(),
         fatal: mock(),
         child: mock().mockReturnThis(),
-    } as unknown as Logger;
-}
+    }) as unknown as Logger;
 
 /**
  * Creates a reusable mock logger registry.
