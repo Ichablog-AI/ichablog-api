@@ -3,6 +3,7 @@
     "module": "index.ts",
     "type": "module",
     "scripts": {
+        "dev": "bun run --hot src/server.ts",
         "reinstall": "rm -rf node_modules bun.lockb && bun install",
         "docker": "docker compose --env-file docker/.env -f docker/docker-compose.yml",
         "docker:start": "bun run docker up -d",
@@ -33,6 +34,7 @@
     },
     "dependencies": {
         "@keyv/redis": "^4.3.4",
+        "hono": "^4.7.7",
         "keyv": "^5.3.3",
         "keyv-file": "^5.1.2",
         "meilisearch": "^0.50.0",
