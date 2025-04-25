@@ -10,10 +10,10 @@ describe('LoggerRegistry', () => {
         expect(log1).toBe(log2);
     });
 
-    it('child logger has correct loggerName property', () => {
+    it('child logger has correct logger name property', () => {
         const name = 'childLoggerAlpha';
         const childLogger = loggerRegistry.getLogger(name);
-        expect(childLogger.bindings().loggerName).toBe(name);
+        expect(childLogger.bindings().name).toBe(name);
     });
 
     it('getBaseLogger returns the base logger instance', () => {
@@ -41,10 +41,10 @@ describe('LoggerRegistry', () => {
 
     it('handles edge case logger names', () => {
         const emptyNameLogger = loggerRegistry.getLogger('');
-        expect(emptyNameLogger.bindings().loggerName).toBe('');
+        expect(emptyNameLogger.bindings().name).toBe('');
         const specialName = '@#$%^&*()_+{}|"<>?';
         const specialLogger = loggerRegistry.getLogger(specialName);
-        expect(specialLogger.bindings().loggerName).toBe(specialName);
+        expect(specialLogger.bindings().name).toBe(specialName);
     });
 
     it('returns same logger instance on repeated rapid calls with same name', () => {
