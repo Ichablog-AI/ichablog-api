@@ -1,6 +1,6 @@
 import appConfig from '@be/config';
 import { CacheService, type CacheServiceParams } from '@be/services/CacheService';
-import { LoggerRegistry } from '@be/services/LoggerRegistry'; // Make sure this import is correct
+import { LoggerRegistry } from '@be/services/LoggerRegistry';
 import type { DependencyContainer } from 'tsyringe';
 
 /**

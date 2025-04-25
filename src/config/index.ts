@@ -44,7 +44,7 @@ const appConfig = {
     },
     httpServer: {
         port: Number(Bun.env.PORT ?? 3000),
-        host: String(Bun.env.HOST ?? '127.0.0.1'),
+        host: String(Bun.env.HOST ?? '0.0.0.0'),
         protocol: String(Bun.env.PROTOCOL ?? 'http'),
     },
 };

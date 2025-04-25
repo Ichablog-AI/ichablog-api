@@ -144,6 +144,7 @@ ___
 ---
 
 ## 8. Define core TypeORM entities
+**completed**
 **Purpose:** Model database tables for domain logic.
 **Goals:**
 - Create entities per design: User, BlogDomain, Article, ArchivedSlug, Tag, Category, Comment.
@@ -161,6 +162,7 @@ ___
 ---
 
 ## 9. Scaffold Hono server with middleware and base routing
+**completed**
 **Purpose:** Set up the HTTP server and attach core routes.
 **Goals:**
 - Initialize Hono app.

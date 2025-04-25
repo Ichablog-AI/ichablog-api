@@ -10,21 +10,28 @@ const logger = appContainer.resolve(LoggerRegistry).getLogger('AppBootstrap');
 (async () => {
     try {
         logger.info('Initializing database...');
-        await AppDataSource.initialize();
-        logger.info('Database initialized.');
+        try {
+            await AppDataSource.initialize();
+            logger.info('Database initialized.');
+        } catch (error) {
+            logger.error(error, 'Database initialization failed.');
+        }
 
         logger.info('Initializing application...');
-        const app = createApp();
-        Bun.serve({
-            hostname: appConfig.httpServer.host,
-            port: appConfig.httpServer.port,
-            fetch: app.fetch,
-        });
-        logger.info('Application initialized.');
-
-        logger.info(
-            `🟢 Listening on ${appConfig.httpServer.protocol}://${appConfig.httpServer.host}:${appConfig.httpServer.port}`
-        );
+        try {
+            const app = createApp();
+            Bun.serve({
+                hostname: appConfig.httpServer.host,
+                port: appConfig.httpServer.port,
+                fetch: app.fetch,
+            });
+            logger.info(
+                `🟢  Listening on ${appConfig.httpServer.protocol}://${appConfig.httpServer.host}:${appConfig.httpServer.port}`
+            );
+            logger.info('Application initialized.');
+        } catch (error) {
+            logger.error(error, 'Application initialization failed.');
+        }
     } catch (error) {
         logger.error(error);
     }
