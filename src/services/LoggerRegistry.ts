@@ -24,7 +24,7 @@ export class LoggerRegistry {
             if (cached) return cached;
         }
 
-        const childLogger = baseLogger.child({ loggerName });
+        const childLogger = baseLogger.child({ name: loggerName });
         this.loggers.set(loggerName, childLogger);
         return childLogger;
     }

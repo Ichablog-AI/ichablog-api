@@ -57,7 +57,7 @@ services:
     working_dir: /app
     volumes:
       - ../:/app
-    command: ["tail", "-f", "/dev/null"]
+    command: ["bun", "dev"]
     depends_on:
       - redis
       - mariadb
@@ -65,3 +65,5 @@ services:
       - meilisearch
     env_file:
       - .env
+    ports:
+      - "${PORT:-3000}:3000"

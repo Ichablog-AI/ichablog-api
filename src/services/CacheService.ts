@@ -65,6 +65,15 @@ export class CacheService {
     }
 
     /**
+     * Retrieves the underlying Keyv instance.
+     *
+     * @returns The Keyv instance.
+     */
+    getAdapter(): Keyv {
+        return this.adapter;
+    }
+
+    /**
      * Retrieves a cached value by key.
      *
      * @param key - Cache key.
