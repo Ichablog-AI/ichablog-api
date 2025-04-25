@@ -4,8 +4,6 @@ import type { DataSourceOptions } from 'typeorm';
 
 const appConfig = {
     nodeEnv: Bun.env.NODE_ENV ?? 'development',
-    port: Number(Bun.env.PORT) || 3000,
-
     jwtSecret: Bun.env.JWT_SECRET ?? '',
 
     redisUrl: Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379',
@@ -43,6 +41,11 @@ const appConfig = {
             entities: [`${import.meta.dir}/../entities/*.ts`],
             migrations: [`${import.meta.dir}/migrations/**/*.ts`],
         } as DataSourceOptions,
+    },
+    httpServer: {
+        port: Number(Bun.env.PORT ?? 3000),
+        host: String(Bun.env.HOST ?? '127.0.0.1'),
+        protocol: String(Bun.env.PROTOCOL ?? 'http'),
     },
 };
 
