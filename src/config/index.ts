@@ -1,11 +1,10 @@
 import type { Config as MeiliSearchConfig } from 'meilisearch';
 import type { ClientOptions as MinioClientOptions } from 'minio';
+import type { DataSourceOptions } from 'typeorm';
 
 const appConfig = {
     nodeEnv: Bun.env.NODE_ENV ?? 'development',
     port: Number(Bun.env.PORT) || 3000,
-
-    databaseUrl: Bun.env.DATABASE_URL ?? '',
 
     jwtSecret: Bun.env.JWT_SECRET ?? '',
 
@@ -33,6 +32,17 @@ const appConfig = {
             host: String(Bun.env.MEILISEARCH_HOST ?? 'http://meilisearch:7700'),
             apiKey: String(Bun.env.MEILISEARCH_API_KEY ?? 'masterKey'),
         } as MeiliSearchConfig,
+    },
+    database: {
+        db: {
+            type: 'mariadb',
+            driver: require('mysql2'),
+            url: Bun.env.DATABASE_URL ?? 'mysql://@127.0.0.1:3306/ichablog',
+            synchronize: false,
+            logging: false,
+            entities: [`${import.meta.dir}/../entities/*.ts`],
+            migrations: [`${import.meta.dir}/migrations/**/*.ts`],
+        } as DataSourceOptions,
     },
 };
 
