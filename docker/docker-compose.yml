@@ -69,9 +69,11 @@ services:
     container_name: ichablog_bun
     working_dir: /app
     volumes:
-      - ../:/app
-      - ~/.gitconfig:/root/.gitconfig:ro
       - bun_cache:/root/.bun
+      - ../:/app
+      - ~/.ssh:/root/.ssh:ro
+      - ~/.ssh/config.docker:/root/.ssh/config:ro
+      - ~/.gitconfig:/root/.gitconfig:ro
     command: ["bun", "dev:http"]
     depends_on:
       - redis
