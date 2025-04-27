@@ -3,7 +3,10 @@
     "module": "index.ts",
     "type": "module",
     "scripts": {
-        "dev": "bun run --hot src/index.ts",
+        "dev:http": "bun run --hot src/boot-http.ts",
+        "dev:workers": "bun run --hot src/boot-workers.ts",
+        "start:http": "bun run src/boot-http.ts",
+        "start:workers": "bun run src/boot-workers.ts",
         "reinstall": "rm -rf node_modules bun.lockb && bun install",
         "docker": "docker compose --env-file docker/.env -f docker/docker-compose.yml",
         "docker:start": "bun run docker up -d",
