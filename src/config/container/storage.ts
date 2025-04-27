@@ -1,6 +1,7 @@
 import appConfig from '@be/config';
 import { LoggerRegistry } from '@be/services/LoggerRegistry';
 import { Storage } from '@be/services/Storage';
+import { registerSingletonFactory } from '@be/utils/registerSingletonFactory';
 import { Client as MinioClient } from 'minio';
 import type { DependencyContainer } from 'tsyringe';
 
@@ -15,25 +16,25 @@ type PROFILE_IMAGE_STORAGE = typeof PROFILE_IMAGE_STORAGE;
  * Registers all bucket-specific Storage instances in the DI container.
  */
 export const registerStorageBindings = (container: DependencyContainer) => {
-    container.register<MinioClient>(MinioClient, {
-        useFactory: () => new MinioClient(appConfig.minio.clientOptions),
-    });
-
-    container.register<Storage>(POST_IMAGE_STORAGE, {
-        useFactory: (c) =>
+    registerSingletonFactory(container, MinioClient, () => new MinioClient(appConfig.minio.clientOptions));
+    registerSingletonFactory(
+        container,
+        POST_IMAGE_STORAGE,
+        (c) =>
             new Storage({
                 loggerRegistry: c.resolve(LoggerRegistry),
                 minioClient: c.resolve(MinioClient),
                 bucketName: 'post',
-            }),
-    });
-
-    container.register<Storage>(PROFILE_IMAGE_STORAGE, {
-        useFactory: (c) =>
+            })
+    );
+    registerSingletonFactory(
+        container,
+        PROFILE_IMAGE_STORAGE,
+        (c) =>
             new Storage({
                 loggerRegistry: c.resolve(LoggerRegistry),
                 minioClient: c.resolve(MinioClient),
                 bucketName: 'profile',
-            }),
-    });
+            })
+    );
 };
