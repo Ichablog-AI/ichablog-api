@@ -5,8 +5,6 @@ import type { DataSourceOptions } from 'typeorm';
 const appConfig = {
     nodeEnv: Bun.env.NODE_ENV ?? 'development',
     jwtSecret: Bun.env.JWT_SECRET ?? '',
-
-    redisUrl: Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379',
     logger: {
         level: String(Bun.env.LOGGER_LEVEL ?? 'info'),
     },
@@ -46,6 +44,9 @@ const appConfig = {
         port: Number(Bun.env.PORT ?? 3000),
         host: String(Bun.env.HOST ?? '0.0.0.0'),
         protocol: String(Bun.env.PROTOCOL ?? 'http'),
+    },
+    queue: {
+        redisUrl: String(Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379'),
     },
 };
 

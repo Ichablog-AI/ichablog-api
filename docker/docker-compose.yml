@@ -11,6 +11,16 @@ services:
     volumes:
       - ../data/redis_data:/data
 
+  resque-web:
+    image: appwrite/resque-web:1.1.0
+    ports:
+      - "5678:5678"
+    environment:
+      - RESQUE_WEB_HOST=redis
+      - RESQUE_WEB_PORT=6379
+      - RESQUE_WEB_HTTP_BASIC_AUTH_USER=ichablog
+      - RESQUE_WEB_HTTP_BASIC_AUTH_PASSWORD=ichablog
+
   mariadb:
     image: mariadb:11.7
     container_name: ichablog_mariadb
