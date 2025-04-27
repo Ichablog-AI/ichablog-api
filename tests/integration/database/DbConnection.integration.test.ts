@@ -23,6 +23,7 @@ describe('DbConnection & EntityGenerator smoke tests', () => {
     for (const EntityClass of ENTITIES) {
         describe(EntityClass.name, () => {
             beforeEach(() => {
+                testDataSource.manager.clear(EntityClass);
                 gen = new EntityGenerator(testDataSource, EntityClass);
             });
 

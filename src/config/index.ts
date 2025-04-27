@@ -11,7 +11,7 @@ const appConfig = {
     minio: {
         clientOptions: {
             useSSL: String(Bun.env.MINIO_USE_SSL) === 'true' || Number(Bun.env.MINIO_USE_SSL) === 1,
-            endPoint: String(Bun.env.MINIO_ENDPOINT ?? '127.0.0.1'),
+            endPoint: String(Bun.env.MINIO_ENDPOINT ?? 'minio'),
             port: Number(Bun.env.MINIO_PORT || 9000),
             accessKey: String(Bun.env.MINIO_ACCESS_KEY ?? 'ichablog'),
             secretKey: String(Bun.env.MINIO_SECRET_KEY ?? 'ichablog'),
@@ -33,7 +33,7 @@ const appConfig = {
         db: {
             type: 'mariadb',
             driver: require('mysql2'),
-            url: Bun.env.DATABASE_URL ?? 'mysql://@127.0.0.1:3306/ichablog',
+            url: Bun.env.DATABASE_URL ?? 'mysql://ichablog:ichablog@mariadb:3306/ichablog',
             synchronize: false,
             logging: false,
             entities: [`${import.meta.dir}/../entities/*.ts`],
@@ -46,7 +46,7 @@ const appConfig = {
         protocol: String(Bun.env.PROTOCOL ?? 'http'),
     },
     queue: {
-        redisUrl: String(Bun.env.REDIS_URL ?? 'redis://127.0.0.1:6379'),
+        redisUrl: String(Bun.env.REDIS_URL ?? 'redis://redis:6379'),
     },
 };
 

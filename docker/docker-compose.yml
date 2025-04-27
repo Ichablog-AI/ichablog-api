@@ -62,12 +62,19 @@ services:
       - ../data/meili_data:/meili_data
 
   bun:
-    image: oven/bun:1.2.9-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile.bun-alpine-git
+    image: ichablog-bun
     container_name: ichablog_bun
     working_dir: /app
     volumes:
+      - bun_cache:/root/.bun
       - ../:/app
-    command: ["bun", "dev"]
+      - ~/.ssh:/root/.ssh:ro
+      - ~/.ssh/config.docker:/root/.ssh/config:ro
+      - ~/.gitconfig:/root/.gitconfig:ro
+    command: ["bun", "dev:http"]
     depends_on:
       - redis
       - mariadb
@@ -77,3 +84,25 @@ services:
       - .env
     ports:
       - "${PORT:-3000}:3000"
+
+  workers:
+    build:
+      context: .
+      dockerfile: Dockerfile.bun-alpine-git
+    image: ichablog-bun
+    container_name: ichablog_workers
+    working_dir: /app
+    volumes:
+      - ../:/app
+      - bun_cache:/root/.bun
+    command: ["bun", "dev:workers"]
+    depends_on:
+      - redis
+      - mariadb
+      - minio
+      - meilisearch
+    env_file:
+      - .env
+
+volumes:
+  bun_cache:
