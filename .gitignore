@@ -176,3 +176,4 @@ dist
 
 data/*
 testDb.sqlite
+email-preview

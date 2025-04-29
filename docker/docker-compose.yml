@@ -2,6 +2,12 @@ version: '3.9'
 name: ichablog-be
 
 services:
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - "1025:1025"   # SMTP server port
+      - "8025:8025"   # Web UI
+
   redis:
     image: redis:7-alpine
     container_name: ichablog_redis
