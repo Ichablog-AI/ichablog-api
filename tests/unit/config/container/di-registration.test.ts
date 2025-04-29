@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'bun:test';
 import { appContainer } from '@be/config/container';
 import { POST_IMAGE_STORAGE, PROFILE_IMAGE_STORAGE } from '@be/config/container/storage';
+import { MailService } from '@be/email/MailService';
 import { HelloWorldJob } from '@be/jobs/HelloWorldJob';
 import { SharedQueue } from '@be/resque/SharedQueue';
 import { CacheService } from '@be/services/CacheService';
@@ -25,6 +26,7 @@ describe('DI registration', () => {
         [Redis, Redis],
         [SharedQueue, SharedQueue],
         [HelloWorldJob, HelloWorldJob],
+        [MailService, MailService],
     ])('should resolve %p with an instance of %p', (token, instanceType) => {
         const instance = appContainer.resolve(token as InjectionToken);
         expect(instance).toBeInstanceOf(instanceType);
