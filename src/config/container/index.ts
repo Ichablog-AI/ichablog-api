@@ -1,5 +1,6 @@
 import appConfig from '@be/config';
 import { registerCacheBindings } from '@be/config/container/cache';
+import { registerEmailBindings } from '@be/config/container/email';
 import { registerSearchBindings } from '@be/config/container/search';
 import { registerStorageBindings } from '@be/config/container/storage';
 import { LoggerRegistry } from '@be/services/LoggerRegistry';
@@ -15,5 +16,6 @@ registerSingletonFactory(appContainer, Redis, () => new Redis(appConfig.queue.re
 registerStorageBindings(appContainer);
 registerCacheBindings(appContainer);
 registerSearchBindings(appContainer);
+registerEmailBindings(appContainer);
 
 export { appContainer };

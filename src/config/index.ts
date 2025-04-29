@@ -48,6 +48,20 @@ const appConfig = {
     queue: {
         redisUrl: String(Bun.env.REDIS_URL ?? 'redis://redis:6379'),
     },
+    mail: {
+        from: String(Bun.env.MAIL_FROM ?? 'IchaBlog App <no-reply@example.ichablog.com>'),
+        smtp: {
+            host: String(Bun.env.SMTP_HOST ?? 'mailhog'),
+            port: Number(Bun.env.SMTP_PORT ?? 1025),
+            secure: String(Bun.env.SMTP_SECURE) === 'true' || Number(Bun.env.SMTP_SECURE) === 1,
+            auth: Bun.env.SMTP_USER
+                ? {
+                      user: Bun.env.SMTP_USER,
+                      pass: Bun.env.SMTP_PASS,
+                  }
+                : undefined,
+        },
+    },
 };
 
 export type AppConfig = typeof appConfig;
