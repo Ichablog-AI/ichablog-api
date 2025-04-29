@@ -1,8 +1,8 @@
 import { appContainer } from '@be/config/container';
 import { AppDataSource } from '@be/database/data-source';
+import { MailService } from '@be/email/MailService';
 import { CacheService } from '@be/services/CacheService';
 import { LoggerRegistry } from '@be/services/LoggerRegistry';
-// src/routes/health.ts
 import { Hono } from 'hono';
 import { MeiliSearch } from 'meilisearch';
 import { Client as MinioClient } from 'minio';
@@ -12,6 +12,7 @@ const logger = appContainer.resolve(LoggerRegistry).getLogger('HealthCheck');
 const cacheService = appContainer.resolve(CacheService);
 const storageClient = appContainer.resolve(MinioClient);
 const searchClient = appContainer.resolve(MeiliSearch);
+const mailService = appContainer.resolve(MailService);
 
 /**
  * Helper: reject if `promise` doesn’t settle within `ms` milliseconds.
@@ -64,6 +65,13 @@ const checkSearchStatus = async (): Promise<boolean> => {
     return status === 'available';
 };
 
+const checkMailServiceStatus = async (): Promise<boolean> => {
+    logger.debug('Checking MailService status');
+    const status = await mailService.transporter.verify();
+    logger.info({ status }, 'MailService health check result');
+    return status;
+};
+
 health.get('/', async (c) => {
     logger.info('Starting health checks');
 
@@ -71,23 +79,27 @@ health.get('/', async (c) => {
     const cachePromise = withTimeout(checkCacheStatus(), 500, 'Cache');
     const storagePromise = withTimeout(checkStorageStatus(), 500, 'Storage');
     const searchPromise = withTimeout(checkSearchStatus(), 500, 'Search');
+    const mailPromise = withTimeout(checkMailServiceStatus(), 500, 'Search');
 
-    const results = await Promise.allSettled([dbPromise, cachePromise, storagePromise, searchPromise]);
-    const [dbRes, cacheRes, storageRes, searchRes] = results;
+    const results = await Promise.allSettled([dbPromise, cachePromise, storagePromise, searchPromise, mailPromise]);
+    const [dbRes, cacheRes, storageRes, searchRes, mailRes] = results;
 
     const database = dbRes.status === 'fulfilled' && dbRes.value === true;
     const cache = cacheRes.status === 'fulfilled' && cacheRes.value === true;
     const storage = storageRes.status === 'fulfilled' && storageRes.value === true;
     const search = searchRes.status === 'fulfilled' && searchRes.value === true;
+    const mail = mailRes.status === 'fulfilled' && mailRes.value === true;
 
     logger.info('Health check results', {
         database,
         cache,
         storage,
-        raw: { dbRes, cacheRes, storageRes, search },
+        search,
+        mail,
+        raw: { dbRes, cacheRes, storageRes, search, mail },
     });
 
-    const allOK = database && cache && storage && search;
+    const allOK = database && cache && storage && search && mail;
 
     return c.json(
         {
@@ -97,6 +109,7 @@ health.get('/', async (c) => {
                 cache: cache ? 'connected' : 'disconnected',
                 storage: storage ? 'connected' : 'disconnected',
                 search: search ? 'connected' : 'disconnected',
+                mail: mail ? 'connected' : 'disconnected',
             },
             uptime: process.uptime(),
             timestamp: new Date().toISOString(),
