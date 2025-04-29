@@ -4,7 +4,7 @@ import type { SharedQueue } from '@be/resque/SharedQueue';
 import { createMockLogger, createMockLoggerRegistry } from '@be/test-mocks/MockedLoggerRegistry';
 
 describe('HelloWorldJob', () => {
-    it('should call MailService.send with correct parameters', async () => {
+    it('should log the correct greeting message with name and age', async () => {
         const sharedQueue = mock() as unknown as SharedQueue;
         const logger = createMockLogger();
         const loggerRegistry = createMockLoggerRegistry(logger);

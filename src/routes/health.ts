@@ -79,7 +79,7 @@ health.get('/', async (c) => {
     const cachePromise = withTimeout(checkCacheStatus(), 500, 'Cache');
     const storagePromise = withTimeout(checkStorageStatus(), 500, 'Storage');
     const searchPromise = withTimeout(checkSearchStatus(), 500, 'Search');
-    const mailPromise = withTimeout(checkMailServiceStatus(), 500, 'Search');
+    const mailPromise = withTimeout(checkMailServiceStatus(), 500, 'Mail');
 
     const results = await Promise.allSettled([dbPromise, cachePromise, storagePromise, searchPromise, mailPromise]);
     const [dbRes, cacheRes, storageRes, searchRes, mailRes] = results;
